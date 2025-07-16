@@ -1,0 +1,17 @@
+{
+  "name": "wordy",
+  "description": "Game similar to Wordle",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "turbo": "^2.5.4"
+  },
+  "author": "Rob Vardy",
+  "packageManager": "pnpm@10.6.5"
+}
