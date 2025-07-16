@@ -8,14 +8,14 @@ A monorepo-based fullstack game inspired by the NYT Wordle, built with modern we
 
 This project uses [Turborepo](https://turbo.build/repo) to manage multiple packages in a monorepo setup.
 
+```
 /apps
-
-- /ui # Vite + React frontend
-- /api # (Planned) Express or Next.js backend
+    /ui # Vite + React frontend
+    /api # (Planned) Express or Next.js backend
 
 /packages
-
-- /types # Shared TypeScript types
+    /types # Shared TypeScript types
+```
 
 ## ⚡ Tech Stack
 
@@ -33,32 +33,34 @@ This project uses [Turborepo](https://turbo.build/repo) to manage multiple packa
 
 ### 1. Install Dependencies
 
-`pnpm install`
-
-or
-
-`yarn install`
-
-or
-
-`npm install`
+```cmd
+pnpm install
+# or
+yarn install
+# or
+npm install
+```
 
 ### 2. Start Dev Servers
 
 Start all apps and watch shared packages
 
-`pnpm dev`
+```cmd
+pnpm dev
+```
 
 Or run individual apps:
 
-### Frontend:
+### Frontend
 
-`cd apps/web`
-
-`pnpm dev`
+```cmd
+cd apps/web
+pnpm dev
+```
 
 ### Backend (once created)
 
-`cd apps/api`
-
-`pnpm dev`
+```cmd
+cd apps/api
+pnpm dev
+```
