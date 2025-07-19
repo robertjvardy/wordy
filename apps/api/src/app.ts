@@ -6,6 +6,7 @@ import { rootLogger } from "rootLogger.js";
 import root from "routes/root.route.js";
 import auth from "routes/auth.route.js";
 import type { Env } from "types.js";
+import { cors } from "hono/cors";
 
 export const app = new Hono<Env>().basePath("/api");
 
@@ -14,6 +15,12 @@ const log = rootLogger.child({ module: "requestLogger" });
 // Middleware
 // TODO investigate build in middlewares
 // I think this is logging every incoming request
+app.use(
+  "/api/*",
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 app.use(
   logger((str, ...rest) => {
     log.info(str, ...rest);

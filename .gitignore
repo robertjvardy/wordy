@@ -11,6 +11,8 @@ server/dist
 public/dist
 .vscode
 
+# ui
+routeTree.gen.ts
 
 # ignore markdown notes
 todo.md
