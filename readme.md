@@ -1,6 +1,6 @@
 # 🟩 Wordy Fullstack App
 
-A monorepo-based fullstack game inspired by the NYT Wordle, built with modern web tools: **Turborepo**, **Vite + React**, and (eventually) **Express or Next.js** for the backend.
+A monorepo-based fullstack game inspired by the NYT Wordle, built with modern web tools: **Turborepo**, **Vite + React**, and **Hono** for the backend.
 
 ---
 
@@ -11,7 +11,7 @@ This project uses [Turborepo](https://turbo.build/repo) to manage multiple packa
 ```
 /apps
     /ui # Vite + React frontend
-    /api # (Planned) Express or Next.js backend
+    /api # Hono
 
 /packages
     /types # Shared TypeScript types
@@ -19,13 +19,13 @@ This project uses [Turborepo](https://turbo.build/repo) to manage multiple packa
 
 ## ⚡ Tech Stack
 
-| Layer    | Technology              | Description                         |
-| -------- | ----------------------- | ----------------------------------- |
-| Monorepo | Turborepo               | Fast builds, caching, dev pipelines |
-| Frontend | React + Vite            | Fast dev server, modern React       |
-| Backend  | TBD (Express / Next.js) | REST or API routes (planned)        |
-| Language | TypeScript              | End-to-end type safety              |
-| Hosting  | TBD                     |
+| Layer    | Technology   | Description                         |
+| -------- | ------------ | ----------------------------------- |
+| Monorepo | Turborepo    | Fast builds, caching, dev pipelines |
+| Frontend | React + Vite | Fast dev server, modern React       |
+| Backend  | HONO         | REST or API routes (TODO)           |
+| Language | TypeScript   | End-to-end type safety              |
+| Hosting  | TBD          |
 
 ---
 
@@ -63,4 +63,19 @@ pnpm dev
 ```cmd
 cd apps/api
 pnpm dev
+```
+
+### Database
+
+starting the postgress docker image
+
+```cmd
+docker compose -f docker/docker-compose.yml up -d
+```
+
+stop the docker image
+
+```cmd
+docker compose -f docker/docker-compose.yml down      # stop only
+docker compose -f docker/docker-compose.yml down -v   # stop and remove volume/data
 ```

@@ -9,3 +9,9 @@ dist-ssr
 .cache
 server/dist
 public/dist
+.vscode
+
+
+# ignore markdown notes
+todo.md
+
