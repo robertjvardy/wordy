@@ -19,9 +19,7 @@ const isPublicPath = (req: string) =>
   publicPaths.some((publicPath) => req.startsWith(`/api${publicPath}`));
 
 const securityMiddleware = createMiddleware<Env>(async (ctx, next) => {
-  console.log(ctx.req.path);
   if (isPublicPath(ctx.req.path)) {
-    logger.info({ message: "Public Path" });
     await next();
     return;
   }
