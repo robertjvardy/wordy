@@ -6,3 +6,10 @@ export type User = {
 export interface RouterContext {
   user?: User;
 }
+
+export type AuthContextValue = {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (token: string) => void;
+  logout: () => void;
+};

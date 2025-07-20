@@ -6,7 +6,12 @@ export const initializeHttp = () => {
   http = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
   });
-};
 
-// TODO Alter defaults after instance has been created
-// http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+  http.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
+};

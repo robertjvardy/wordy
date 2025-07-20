@@ -5,7 +5,7 @@ import securityMiddleware from "middleware/securityMiddleware.js";
 import { rootLogger } from "rootLogger.js";
 import root from "routes/root.route.js";
 import auth from "routes/auth.route.js";
-import users from "routes/users.route.js";
+import users from "routes/gameUser.route.js";
 import type { Env } from "types.js";
 import { cors } from "hono/cors";
 

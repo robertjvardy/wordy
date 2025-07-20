@@ -1,17 +1,11 @@
-import type { Env } from "types.js";
+import type { Env, User } from "types.js";
 import { createMiddleware } from "hono/factory";
 import { rootLogger } from "rootLogger.js";
+import { verifyJWT } from "utils/jtw.js";
 
 const logger = rootLogger.child({
   module: "securityMiddleware",
 });
-
-const dummyUser = {
-  username: "Rob",
-  id: "1",
-  password_hash: "test",
-  created_at: "",
-};
 
 const publicPaths = ["/auth"];
 
@@ -23,11 +17,15 @@ const securityMiddleware = createMiddleware<Env>(async (ctx, next) => {
     await next();
     return;
   }
+  const auth = ctx.req.header("Authorization");
+  const token = auth?.split(" ")[1];
 
-  // TODO find header and confirm valid jwt for auth
+  if (!token) return ctx.json({ message: "Missing token" }, 401);
 
-  ctx.set("user", dummyUser);
-  logger.info({ message: "Private Path" });
+  const payload = await verifyJWT(token);
+  if (!payload) return ctx.json({ message: "Invalid token" }, 401);
+
+  ctx.set("user", { username: payload.username, id: payload.id } as User);
   await next();
 });
 

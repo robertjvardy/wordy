@@ -1,22 +1,24 @@
 {
   "name": "api",
   "type": "module",
-  "scripts": {    
+  "scripts": {
     "dev": "tsx watch src/index.ts | pino-pretty",
     "build": "tsc",
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@hono/node-server": "^1.16.0",    
+    "@hono/node-server": "^1.16.0",
     "@repo/db": "workspace:*",
-    "hono": "^4.8.5",    
+    "hono": "^4.8.5",
+    "jose": "^6.0.12",
     "pino": "^9.7.0",
     "zod": "^4.0.5"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
+    "@repo/types": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "^20.11.17",    
+    "@types/node": "^20.11.17",
     "pino-pretty": "^13.0.0",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
