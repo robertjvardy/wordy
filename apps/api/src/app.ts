@@ -5,7 +5,8 @@ import securityMiddleware from "middleware/securityMiddleware.js";
 import { rootLogger } from "rootLogger.js";
 import root from "routes/root.route.js";
 import auth from "routes/auth.route.js";
-import users from "routes/gameUser.route.js";
+import users from "routes/user.route.js";
+import game from "routes/gameUser.route.js";
 import type { Env } from "types.js";
 import { cors } from "hono/cors";
 
@@ -31,6 +32,7 @@ app.use("*", securityMiddleware);
 app.onError(errorHandler);
 
 // routes
-app.route("/users", users);
+app.route("/game", game);
 app.route("/auth", auth);
+app.route("/users", users);
 app.route("/", root);

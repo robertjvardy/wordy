@@ -5,8 +5,7 @@ const isAuthenticated = () => localStorage.getItem("token");
 export const Route = createFileRoute("/game/")({
   component: RouteComponent,
   beforeLoad: async ({ location }) => {
-    // if (!isAuthenticated()) {
-    if (true) {
+    if (!isAuthenticated()) {
       throw redirect({
         to: "/login",
         search: {

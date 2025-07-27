@@ -23,7 +23,10 @@ const securityMiddleware = createMiddleware<Env>(async (ctx, next) => {
   if (!token) return ctx.json({ message: "Missing token" }, 401);
 
   const payload = await verifyJWT(token);
-  if (!payload) return ctx.json({ message: "Invalid token" }, 401);
+  if (!payload) {
+    logger.warn(`Missing token for request: ${ctx.req.url}`);
+    return ctx.json({ message: "Invalid token" }, 401);
+  }
 
   ctx.set("user", { username: payload.username, id: payload.id } as User);
   await next();

@@ -11,11 +11,7 @@ export const Route = createFileRoute("/login/")({
 
 function RouteComponent() {
   const { mutate } = useLoginMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginRequestType>();
+  const { register, handleSubmit } = useForm<LoginRequestType>();
   const onSubmit: SubmitHandler<LoginRequestType> = (data) => mutate(data);
 
   const testApi = async () => {

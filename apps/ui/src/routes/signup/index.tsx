@@ -10,11 +10,7 @@ export const Route = createFileRoute("/signup/")({
 
 function RouteComponent() {
   const { mutate } = useCreateUserMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CreateUserRequestType>();
+  const { register, handleSubmit } = useForm<CreateUserRequestType>();
   const onSubmit: SubmitHandler<CreateUserRequestType> = (data) => mutate(data);
 
   // TODO add validations

@@ -10,7 +10,8 @@
   "packageManager": "pnpm@10.6.5",
   "exports": {
     ".": "./src/index.ts",
-    "./dtos": "./src/dtos/index.ts"
+    "./dtos": "./src/dtos/index.ts",
+    "./entities": "./src/entities/index.ts"
   },
   "dependencies": {
     "zod": "^4.0.5"
