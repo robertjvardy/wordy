@@ -1,15 +1,11 @@
-// TODO move this to dto
-export type User = {
-  id: string;
-  username: string;
-};
+import type { User } from "@repo/types/dtos";
 
 export interface RouterContext {
-  user?: User;
+  user: User | null;
+  authenticated: boolean;
 }
 
-export type AuthContextValue = {
-  user: User | null;
-  isAuthenticated: boolean;
+export type AuthContextValue = RouterContext & {
   logout: () => void;
+  login: (user: User, token: string) => void;
 };

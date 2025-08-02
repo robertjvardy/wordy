@@ -3,20 +3,18 @@ import { useLoginMutation } from "../../queries/authQueries";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { LoginRequestType } from "@repo/types/dtos";
 import styles from "./styles.module.css";
-import { http } from "../../module/http";
 
 export const Route = createFileRoute("/login/")({
   component: RouteComponent,
 });
+
+// TODO replace react-hook-form with tanstack forms
 
 function RouteComponent() {
   const { mutate } = useLoginMutation();
   const { register, handleSubmit } = useForm<LoginRequestType>();
   const onSubmit: SubmitHandler<LoginRequestType> = (data) => mutate(data);
 
-  const testApi = async () => {
-    await http.get("/users");
-  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -30,7 +28,6 @@ function RouteComponent() {
           </div>
         </div>
       </form>
-      <button onClick={testApi}>Test</button>
     </>
   );
 }

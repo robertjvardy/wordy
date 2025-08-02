@@ -1,11 +1,9 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-const isAuthenticated = () => localStorage.getItem("token");
-
 export const Route = createFileRoute("/game/")({
   component: RouteComponent,
-  beforeLoad: async ({ location }) => {
-    if (!isAuthenticated()) {
+  beforeLoad: async ({ context, location }) => {
+    if (!context.authenticated) {
       throw redirect({
         to: "/login",
         search: {
