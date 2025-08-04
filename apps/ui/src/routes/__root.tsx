@@ -1,6 +1,8 @@
 import {
   createRootRouteWithContext,
+  Link,
   Outlet,
+  useLocation,
   useNavigate,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
@@ -11,11 +13,14 @@ import { Button, Typography } from "@mui/material";
 
 const PageLayout = () => {
   const { logout, authenticated } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
   const handleLogout = async () => {
     logout();
     await navigate({ to: "/" });
   };
+  const matchUrlRoute = (route: string) => location.pathname.endsWith(route);
+
   return (
     <Box
       sx={{
@@ -25,6 +30,7 @@ const PageLayout = () => {
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        padding: "0 1rem",
       }}
     >
       <Box
@@ -38,11 +44,31 @@ const PageLayout = () => {
           Wordy
         </Typography>
         {/* TODO make this an avatar that the user can click on to expand a user profile menu */}
-        {authenticated ? (
-          <Button onClick={handleLogout} variant="text">
-            logout
-          </Button>
-        ) : null}
+        <Box>
+          {!matchUrlRoute("/") && (
+            <Link to="/">
+              <Button>Home</Button>
+            </Link>
+          )}
+          {authenticated ? (
+            <Button onClick={handleLogout} variant="text">
+              logout
+            </Button>
+          ) : (
+            <>
+              {!matchUrlRoute("login") && (
+                <Link to="/login">
+                  <Button>Login</Button>
+                </Link>
+              )}
+              {!matchUrlRoute("signup") && (
+                <Link to="/signup">
+                  <Button>Sign Up</Button>
+                </Link>
+              )}
+            </>
+          )}
+        </Box>
       </Box>
       <Box
         sx={{

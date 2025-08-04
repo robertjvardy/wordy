@@ -53,7 +53,7 @@ const initRequest = async () => {
   return data;
 };
 
-export const useAuthInit = ({ enabled }: { enabled: boolean }) =>
+export const useAuthInit = () =>
   useSuspenseQuery<AuthDtoType>({
     queryKey: ["auth-init"],
     queryFn: initRequest,

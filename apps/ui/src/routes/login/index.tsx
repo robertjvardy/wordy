@@ -38,7 +38,7 @@ function RouteComponent() {
         }}
       >
         <Typography variant="h5" sx={{ marginBottom: "1rem" }}>
-          Sign In
+          Log In
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <form.AppField

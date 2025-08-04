@@ -40,16 +40,12 @@ function Index() {
         }}
       >
         <Link to="/about">About</Link>
-        {authenticated ? (
+        {authenticated && (
           <>
             <Link to="/game">To Game</Link>
           </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </>
         )}
+
         {/* TODO verify and remove this */}
         <button onClick={testApi}>Authentication</button>
       </Box>

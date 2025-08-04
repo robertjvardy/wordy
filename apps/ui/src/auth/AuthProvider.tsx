@@ -8,7 +8,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
-  const { data } = useAuthInit({ enabled: !user });
+  const { data } = useAuthInit();
 
   useEffect(() => {
     const { authenticated, user } = AuthDto.parse(data);
