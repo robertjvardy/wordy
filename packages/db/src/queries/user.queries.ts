@@ -1,22 +1,23 @@
-import type { User } from "@repo/types/entities";
+import type { UserEntityType } from "@repo/types/entities";
 import { db } from "../client.js";
 
 // TODO create a try catch wrapper
 
 export async function getUsersQuery() {
-  const res = await db.query<User>("SELECT * FROM game_user");
+  const res = await db.query<UserEntityType>("SELECT * FROM game_user");
   return res.rows;
 }
 
 export async function getUserByIdQuery(id: string) {
-  const res = await db.query<User>("SELECT * FROM game_user WHERE id = $1", [
-    id,
-  ]);
+  const res = await db.query<UserEntityType>(
+    "SELECT * FROM game_user WHERE id = $1",
+    [id]
+  );
   return res.rows[0] ?? null;
 }
 
 export async function getUserByUsernameQuery(username: string) {
-  const res = await db.query<User>(
+  const res = await db.query<UserEntityType>(
     "SELECT * FROM game_user WHERE username = $1",
     [username.toLowerCase()]
   );
@@ -24,8 +25,9 @@ export async function getUserByUsernameQuery(username: string) {
 }
 
 export async function createUserQuery(username: string, password: string) {
-  await db.query<User>(
-    "INSERT INTO game_user (username, password_hash) values ($1, $2)",
+  const result = await db.query<UserEntityType>(
+    "INSERT INTO game_user (username, password_hash) values ($1, $2) RETURNING *",
     [username.toLowerCase(), password]
   );
+  return result.rows[0];
 }

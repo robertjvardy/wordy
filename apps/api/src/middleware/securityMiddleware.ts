@@ -1,4 +1,4 @@
-import type { Env, User } from "types.js";
+import { Token, type Env } from "types.js";
 import { createMiddleware } from "hono/factory";
 import { rootLogger } from "rootLogger.js";
 import { verifyJWT } from "utils/jtw.js";
@@ -28,7 +28,12 @@ const securityMiddleware = createMiddleware<Env>(async (ctx, next) => {
     return ctx.json({ message: "Invalid token" }, 401);
   }
 
-  ctx.set("user", { username: payload.username, id: payload.id } as User);
+  const { username, id } = Token.parse(payload);
+
+  ctx.set("user", {
+    username,
+    id,
+  } as Env["Variables"]["user"]);
   await next();
 });
 

@@ -1,33 +1,63 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useLoginMutation } from "../../queries/authQueries";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import type { LoginRequestType } from "@repo/types/dtos";
-import styles from "./styles.module.css";
+import useAppForm from "../../module/formContexts";
+import z from "zod";
+import { Box, Typography } from "@mui/material";
 
 export const Route = createFileRoute("/login/")({
   component: RouteComponent,
+  beforeLoad: async ({ context }) => {
+    // TODO Bug: this doenst work in the user goes directly to the route in the address bar of the browser
+    if (context.authenticated) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
 });
-
-// TODO replace react-hook-form with tanstack forms
 
 function RouteComponent() {
   const { mutate } = useLoginMutation();
-  const { register, handleSubmit } = useForm<LoginRequestType>();
-  const onSubmit: SubmitHandler<LoginRequestType> = (data) => mutate(data);
-
+  // TODO add validation
+  const form = useAppForm({
+    validators: {
+      onChange: z.object({
+        username: z.string(),
+        password: z.string(),
+      }),
+    },
+    onSubmit: ({ value }: { value: { username: string; password: string } }) =>
+      mutate(value),
+  });
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <h2>Login Page</h2>
-          <div className={styles["form-container"]}>
-            <input {...register("username", { required: true })} />
-            <input {...register("password", { required: true })} />
-
-            <button onClick={handleSubmit(onSubmit)}>Login</button>
-          </div>
-        </div>
+    <Box sx={{ maxWidth: "500px", marginTop: "4rem" }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+        }}
+      >
+        <Typography variant="h5" sx={{ marginBottom: "1rem" }}>
+          Sign In
+        </Typography>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <form.AppField
+            name="username"
+            children={(field) => (
+              <field.TextField label="Username" id="username" />
+            )}
+          />
+          <form.AppField
+            name="password"
+            children={(field) => (
+              <field.TextField label="Password" id="password" isPassword />
+            )}
+          />
+          <form.AppForm>
+            <form.SubscribeButton label="login" />
+          </form.AppForm>
+        </Box>
       </form>
-    </>
+    </Box>
   );
 }

@@ -1,19 +1,19 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { AuthContextValue } from "../shared/types";
 import { useAuthInit } from "../queries/authQueries";
-import type { User } from "@repo/types/dtos";
+import { AuthDto, type UserType } from "@repo/types/dtos";
 import { removeAuthToken, setAuthToken } from "../module/jwt";
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const { data } = useAuthInit({ enabled: !user });
 
   useEffect(() => {
-    // TODO validate user response using zod
-    if (data && data?.authenticated && data.user) {
-      setUser({ ...data.user });
+    const { authenticated, user } = AuthDto.parse(data);
+    if (authenticated && user) {
+      setUser({ ...user });
     }
   }, [data]);
 
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
   };
 
-  const login = (user: User, token: string) => {
+  const login = (user: UserType, token: string) => {
     setAuthToken(token);
     setUser(user);
   };

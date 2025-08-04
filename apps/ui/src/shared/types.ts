@@ -1,11 +1,11 @@
-import type { User } from "@repo/types/dtos";
+import type { UserType } from "@repo/types/dtos";
 
 export interface RouterContext {
-  user: User | null;
+  user: UserType | null;
   authenticated: boolean;
 }
 
 export type AuthContextValue = RouterContext & {
   logout: () => void;
-  login: (user: User, token: string) => void;
+  login: (user: UserType, token: string) => void;
 };

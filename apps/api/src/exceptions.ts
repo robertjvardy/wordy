@@ -1,3 +1,4 @@
+// TODO investigate how this is received by the UI in terms of rendering validation errors
 export const userAlreadyExists = new Response("User Already Exists", {
   status: 409,
 });

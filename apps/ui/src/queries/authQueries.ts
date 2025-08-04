@@ -1,7 +1,11 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { http } from "../module/http";
-import type { CreateUserRequestType, LoginRequestType } from "@repo/types/dtos";
-import type { InitDto } from "@repo/types/dtos";
+import {
+  AuthDto,
+  type CreateUserRequestType,
+  type LoginRequestType,
+} from "@repo/types/dtos";
+import type { AuthDtoType } from "@repo/types/dtos";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -10,11 +14,20 @@ const createUserRequest = async (body: CreateUserRequestType) => {
   return data;
 };
 
-export const useCreateUserMutation = () =>
-  useMutation({
+export const useCreateUserMutation = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  return useMutation({
     mutationFn: (body: CreateUserRequestType) => createUserRequest(body),
+    onSuccess: (res: AuthDtoType) => {
+      const { user, token } = AuthDto.parse(res);
+      if (user && token) {
+        login(user, token);
+        navigate({ to: "/" });
+      }
+    },
   });
-
+};
 const loginRequest = async (body: LoginRequestType) => {
   const { data } = await http.post("/auth/login", body);
   return data;
@@ -25,10 +38,10 @@ export const useLoginMutation = () => {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: (body: LoginRequestType) => loginRequest(body),
-    onSuccess: (res: InitDto) => {
-      // TODO validate response with zod
-      if (res.user && res.token) {
-        login(res.user, res.token);
+    onSuccess: (res: AuthDtoType) => {
+      const { user, token } = AuthDto.parse(res);
+      if (user && token) {
+        login(user, token);
         navigate({ to: "/" });
       }
     },
@@ -41,4 +54,7 @@ const initRequest = async () => {
 };
 
 export const useAuthInit = ({ enabled }: { enabled: boolean }) =>
-  useQuery<InitDto>({ queryKey: ["auth-init"], queryFn: initRequest, enabled });
+  useSuspenseQuery<AuthDtoType>({
+    queryKey: ["auth-init"],
+    queryFn: initRequest,
+  });

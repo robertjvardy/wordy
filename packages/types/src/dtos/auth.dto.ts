@@ -13,14 +13,17 @@ export const CreateUserRequest = z.object({
 export type LoginRequestType = z.infer<typeof LoginRequest>;
 export type CreateUserRequestType = z.infer<typeof CreateUserRequest>;
 
-export type User = {
-  id: string;
-  username: string;
-};
+export const User = z.object({
+  username: z.string(),
+  id: z.uuid(),
+});
 
-// TODO create zod object for this and then validate in TODOs
-export type InitDto = {
-  token?: string;
-  authenticated: boolean;
-  user?: User;
-};
+export type UserType = z.infer<typeof User>;
+
+export const AuthDto = z.object({
+  token: z.string().optional(),
+  authenticated: z.boolean(),
+  user: User.optional(),
+});
+
+export type AuthDtoType = z.infer<typeof AuthDto>;

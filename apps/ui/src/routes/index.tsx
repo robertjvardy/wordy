@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import styles from "./styles.module.css";
 import { useAuth } from "../auth/AuthProvider";
 import { http } from "../module/http";
+import { Box, Typography } from "@mui/material";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -14,10 +14,31 @@ function Index() {
   };
 
   return (
-    <>
-      <h2>Welcome to the wordle knockoff!</h2>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        margin: "auto",
+      }}
+    >
+      <Typography
+        variant="h5"
+        display="inline"
+        textAlign="center"
+        marginBottom="5rem"
+      >
+        Welcome to the wordle knockoff!
+      </Typography>
 
-      <div className={styles["links-container"]}>
+      <Box
+        sx={{
+          justifyContent: "center",
+          display: "flex",
+          flexDirection: "row",
+          gap: "1rem",
+        }}
+      >
         <Link to="/about">About</Link>
         {authenticated ? (
           <>
@@ -31,7 +52,7 @@ function Index() {
         )}
         {/* TODO verify and remove this */}
         <button onClick={testApi}>Authentication</button>
-      </div>
-    </>
+      </Box>
+    </Box>
   );
 }

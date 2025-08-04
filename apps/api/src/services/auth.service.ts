@@ -1,9 +1,5 @@
 import { createUserQuery, getUserByUsernameQuery } from "@repo/db/queries";
-import {
-  authenticationError,
-  userAlreadyExists,
-  resourceNotFound,
-} from "exceptions.js";
+import { authenticationError, userAlreadyExists } from "exceptions.js";
 import { HTTPException } from "hono/http-exception";
 import { rootLogger } from "rootLogger.js";
 
@@ -15,17 +11,19 @@ export const createUser = async (username: string, password: string) => {
     throw new HTTPException(409, { res: userAlreadyExists });
   }
 
-  await createUserQuery(username, password);
+  const user = await createUserQuery(username, password);
   log.info(`User ${username} created`);
+
+  return user;
 };
 
 export const authenticateUser = async (username: string, password: string) => {
   const res = await getUserByUsernameQuery(username);
-  if (!res) {
-    throw new HTTPException(404, { res: resourceNotFound });
-  }
-  if (res?.password_hash !== password) {
-    throw new HTTPException(403, { res: authenticationError });
+
+  if (!res || res.password_hash !== password) {
+    throw new HTTPException(401, {
+      res: authenticationError,
+    });
   }
   log.info(`Authenticated user ${res.id}`);
 
