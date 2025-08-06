@@ -1,7 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "../auth/AuthProvider";
-import { http } from "../module/http";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -9,9 +15,6 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { authenticated } = useAuth();
-  const testApi = async () => {
-    await http.get("/users/userInfo");
-  };
 
   return (
     <Box
@@ -28,26 +31,55 @@ function Index() {
         textAlign="center"
         marginBottom="5rem"
       >
-        Welcome to the wordle knockoff!
+        Welcome to the knockoff Wordle!
       </Typography>
 
       <Box
         sx={{
           justifyContent: "center",
+          alignItems: "center",
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           gap: "1rem",
         }}
       >
-        <Link to="/about">About</Link>
         {authenticated && (
           <>
-            <Link to="/game">To Game</Link>
+            <Link to="/game">
+              <Button variant="contained">Play</Button>
+            </Link>
           </>
         )}
+        <Box>
+          <Typography variant="h4" gutterBottom>
+            What is Wordy?
+          </Typography>
 
-        {/* TODO verify and remove this */}
-        <button onClick={testApi}>Authentication</button>
+          <Typography variant="body1">
+            <strong>Wordy</strong> is a word puzzle game where players have six
+            attempts to guess a secret five-letter word. After each guess, the
+            game provides feedback:
+          </Typography>
+
+          <List dense>
+            <ListItem>
+              <ListItemText primary="🟩 Green: Correct letter in the correct position" />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="🟨 Yellow: Correct letter in the wrong position" />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="⬜ Gray: Letter not in the word at all" />
+            </ListItem>
+          </List>
+
+          <Typography variant="body1">
+            Once a player completes a game (by either guessing the word
+            correctly or running out of attempts), they have the opportunity to
+            compare their scores with their friends who have also completed the
+            same word.
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );

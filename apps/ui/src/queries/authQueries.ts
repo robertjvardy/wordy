@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { http } from "../module/http";
 import {
   AuthDto,
@@ -28,6 +28,7 @@ export const useCreateUserMutation = () => {
     },
   });
 };
+
 const loginRequest = async (body: LoginRequestType) => {
   const { data } = await http.post("/auth/login", body);
   return data;

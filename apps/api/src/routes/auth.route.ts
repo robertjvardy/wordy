@@ -4,7 +4,7 @@ import { Token, type Env } from "types.js";
 import {
   CreateUserRequest,
   LoginRequest,
-  type AuthDto,
+  type AuthDtoType,
 } from "@repo/types/dtos";
 import { generateJWT, verifyJWT } from "utils/jtw.js";
 import { UserEntity } from "@repo/types/entities";
@@ -18,7 +18,7 @@ app.post("/login", async (c) => {
   const user = await authenticateUser(username, password);
 
   const token = await generateJWT({ id: user.id, username: user.username });
-  return c.json<AuthDto>({
+  return c.json<AuthDtoType>({
     token,
     authenticated: true,
     user: { username: user.username, id: user.id },
@@ -34,7 +34,7 @@ app.post("/createUser", async (c) => {
   const { username: dbUsername, id } = UserEntity.parse(res);
   const token = await generateJWT({ id: id, username: dbUsername });
 
-  return c.json<AuthDto>({
+  return c.json<AuthDtoType>({
     authenticated: true,
     user: { username: dbUsername, id },
     token,
@@ -45,17 +45,17 @@ app.get("/init", async (c) => {
   const auth = c.req.header("Authorization");
   const token = auth?.split(" ")[1];
   if (!token) {
-    return c.json<AuthDto>({ authenticated: false });
+    return c.json<AuthDtoType>({ authenticated: false });
   }
 
   const payload = await verifyJWT(token);
   if (!payload) {
-    return c.json<AuthDto>({ authenticated: false });
+    return c.json<AuthDtoType>({ authenticated: false });
   }
 
   const { username, id } = Token.parse(payload);
 
-  return c.json<AuthDto>({
+  return c.json<AuthDtoType>({
     authenticated: true,
     user: { username, id },
   });

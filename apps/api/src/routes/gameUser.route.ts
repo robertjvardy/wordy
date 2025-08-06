@@ -1,32 +1,18 @@
 import { Hono } from "hono";
 import type { Env } from "types.js";
-import { getUsersQuery, getUserByIdQuery } from "@repo/db/queries";
-import { HTTPException } from "hono/http-exception";
-import { resourceNotFound } from "exceptions.js";
+import { fetchAllGames, fetchCurrentGame } from "services/gameUser.service.js";
+import type { UserGameDtoType } from "@repo/types/dtos";
 
 const app = new Hono<Env>();
 
 app.get("/", async (c) => {
-  try {
-    const users = await getUsersQuery();
-    console.log(c.get("user"));
-    return c.json({ users: users });
-  } catch (e: any) {
-    console.log(e);
-  }
+  const games = await fetchAllGames();
+  return c.json<UserGameDtoType[]>(games);
 });
 
-app.get("/:id", async (c) => {
-  try {
-    const id = c.req.param("id");
-    const user = await getUserByIdQuery(id);
-    if (!user) {
-      throw new HTTPException(404, { res: resourceNotFound });
-    }
-    return c.json({ user: user });
-  } catch (e: any) {
-    console.log(e);
-  }
+app.get("/current", async (c) => {
+  const currentGame = await fetchCurrentGame();
+  return c.json<UserGameDtoType>({ ...currentGame });
 });
 
 export default app;

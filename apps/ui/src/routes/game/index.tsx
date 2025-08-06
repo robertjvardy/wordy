@@ -1,4 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import {
+  useFetchAllGames,
+  useFetchCurrentGame,
+} from "../../queries/gameQueries";
 
 export const Route = createFileRoute("/game/")({
   component: RouteComponent,
@@ -15,5 +19,9 @@ export const Route = createFileRoute("/game/")({
 });
 
 function RouteComponent() {
+  const { data } = useFetchAllGames();
+  console.log(data);
+  const { data: current } = useFetchCurrentGame();
+  console.log(current);
   return <div>Hello "/game/"!</div>;
 }
