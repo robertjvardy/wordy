@@ -1,11 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import {
-  useFetchAllGames,
-  useFetchCurrentGame,
-} from "../../queries/gameQueries";
+import Game from "../../ui/game/Game";
 
 export const Route = createFileRoute("/game/")({
-  component: RouteComponent,
+  component: Game,
   beforeLoad: async ({ context, location }) => {
     if (!context.authenticated) {
       throw redirect({
@@ -17,11 +14,3 @@ export const Route = createFileRoute("/game/")({
     }
   },
 });
-
-function RouteComponent() {
-  const { data } = useFetchAllGames();
-  console.log(data);
-  const { data: current } = useFetchCurrentGame();
-  console.log(current);
-  return <div>Hello "/game/"!</div>;
-}

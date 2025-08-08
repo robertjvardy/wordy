@@ -15,7 +15,6 @@ const tempNewUserGameDto = {
   gameId: "",
   isComplete: false,
   guesses: [null, null, null, null, null, null],
-  word: "tempr",
 };
 
 export const fetchAllGames = async (): Promise<UserGameDtoType[]> => {

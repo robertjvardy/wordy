@@ -12,14 +12,13 @@ export const UserGameEntity = z.object({
   fourthGuess: z.string().nullable(),
   fifthGuess: z.string().nullable(),
   sixthGuess: z.string().nullable(),
-  word: z.string(),
 });
 
 export type UserGameEntityType = z.infer<typeof UserGameEntity>;
 
 export const readUserGameEntityFromDb = (raw: Record<string, any>) => {
   return UserGameEntity.parse({
-    id: raw.user_game_id,
+    id: raw.id,
     userId: raw.wordy_user_id,
     gameId: raw.game_id,
     isComplete: raw.is_complete,
@@ -29,7 +28,6 @@ export const readUserGameEntityFromDb = (raw: Record<string, any>) => {
     fourthGuess: raw.fourth_guess,
     fifthGuess: raw.fifth_guess,
     sixthGuess: raw.sixth_guess,
-    word: raw.word,
   });
 };
 
@@ -39,7 +37,6 @@ export const toUserGameDto = (entity: UserGameEntityType): UserGameDtoType => {
     userId: entity.userId,
     gameId: entity.gameId,
     isComplete: entity.isComplete,
-    word: entity.word,
     guesses: [
       entity.firstGuess,
       entity.secondGuess,

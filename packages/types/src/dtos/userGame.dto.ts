@@ -6,7 +6,6 @@ export const UserGameDto = z.object({
   gameId: z.uuid(),
   isComplete: z.boolean(),
   guesses: z.array(z.string().nullable()).length(6),
-  word: z.string(),
 });
 
 export type UserGameDtoType = z.infer<typeof UserGameDto>;
