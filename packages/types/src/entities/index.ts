@@ -1,2 +1,3 @@
-export * from "./auth.entities.js";
-export * from "./userGame.entities.js";
+export * from "./auth.entity.js";
+export * from "./userGame.entity.js";
+export * from "./game.entity.js";

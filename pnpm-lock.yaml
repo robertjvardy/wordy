@@ -32,6 +32,9 @@ importers:
       jose:
         specifier: ^6.0.12
         version: 6.0.12
+      pg:
+        specifier: ^8.16.3
+        version: 8.16.3
       pino:
         specifier: ^9.7.0
         version: 9.7.0
