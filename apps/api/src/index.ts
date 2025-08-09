@@ -1,11 +1,11 @@
 import { serve } from "@hono/node-server";
 import { app } from "app.js";
-import { rootLogger } from "rootLogger.js";
+import { logger } from "@repo/logger";
 
 const PORT = parseInt(process.env.port ?? "5000");
 
 const server = serve({ fetch: app.fetch, port: PORT }, (info) => {
-  rootLogger.info(`Server is running on http://localhost:${info.port}`);
+  logger.info(`Server is running on http://localhost:${info.port}`);
 });
 
 // graceful shutdown

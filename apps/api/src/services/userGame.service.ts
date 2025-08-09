@@ -5,10 +5,9 @@ import {
   type UserType,
 } from "@repo/types/dtos";
 import { toUserGameDto } from "@repo/types/entities";
-import { rootLogger } from "rootLogger.js";
-import queryLogger from "loggers/query.js";
+import { logger } from "@repo/logger";
 
-const log = rootLogger.child({ module: "authService" });
+const log = logger.child({ module: "authService" });
 
 const tempNewUserGameDto = {
   id: "",
@@ -19,14 +18,14 @@ const tempNewUserGameDto = {
 };
 
 export const fetchAllGames = async (): Promise<UserGameDtoType[]> => {
-  const games = await getUserGamesQuery(queryLogger);
+  const games = await getUserGamesQuery();
   return games.map((game) => toUserGameDto(game));
 };
 
 export const fetchCurrentGame = async (
   user: UserType
 ): Promise<UserGameDtoType> => {
-  const game = await getCurrentGameQuery(queryLogger, user.id);
+  const game = await getCurrentGameQuery(user.id);
   if (game) {
     return toUserGameDto(game);
   }

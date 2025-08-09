@@ -1,10 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import type { AuthContextValue } from "../shared/types";
+import { useEffect, useState } from "react";
 import { useAuthInit } from "../queries/authQueries";
 import { AuthDto, type UserType } from "@repo/types/dtos";
 import { removeAuthToken, setAuthToken } from "../module/jwt";
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
@@ -34,10 +32,4 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = (): AuthContextValue => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-  return ctx;
 };

@@ -6,7 +6,7 @@ import {
   type LoginRequestType,
 } from "@repo/types/dtos";
 import type { AuthDtoType } from "@repo/types/dtos";
-import { useAuth } from "../auth/AuthProvider";
+import { useAuth } from "../auth/AuthContext";
 import { useNavigate } from "@tanstack/react-router";
 
 const createUserRequest = async (body: CreateUserRequestType) => {

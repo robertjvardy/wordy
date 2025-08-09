@@ -1,9 +1,9 @@
 import { Token, type Env } from "types.js";
 import { createMiddleware } from "hono/factory";
-import { rootLogger } from "rootLogger.js";
+import { logger } from "@repo/logger";
 import { verifyJWT } from "utils/jtw.js";
 
-const logger = rootLogger.child({
+const log = logger.child({
   module: "securityMiddleware",
 });
 
@@ -24,7 +24,7 @@ const securityMiddleware = createMiddleware<Env>(async (ctx, next) => {
 
   const payload = await verifyJWT(token);
   if (!payload) {
-    logger.warn(`Missing token for request: ${ctx.req.url}`);
+    log.warn(`Missing token for request: ${ctx.req.url}`);
     return ctx.json({ message: "Invalid token" }, 401);
   }
 

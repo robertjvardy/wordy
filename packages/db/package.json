@@ -3,9 +3,6 @@
   "type": "module",
   "main": "src/index.ts",
   "version": "1.0.0",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {
     "@repo/types": "workspace:*",
     "dotenv": "^17.2.0",
@@ -13,6 +10,7 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
+    "@repo/logger": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^20.11.17",
     "@types/pg": "^8.15.4",

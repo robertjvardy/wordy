@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useAuth } from "../auth/AuthProvider";
+import { useAuth } from "../auth/AuthContext";
 import {
   Box,
   Button,

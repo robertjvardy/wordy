@@ -1,6 +1,6 @@
 import invariant from "tiny-invariant";
-import { useAuth } from "../../auth/AuthProvider";
 import { Box, Typography } from "@mui/material";
+import { useAuth } from "../../auth/AuthContext";
 
 const Profile = () => {
   const { user } = useAuth();

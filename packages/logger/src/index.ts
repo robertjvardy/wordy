@@ -1,6 +1,6 @@
 import { pino } from "pino";
 
-export const rootLogger = pino({
+export const logger = pino({
   level: "debug",
   serializers: {
     err: pino.stdSerializers.err,

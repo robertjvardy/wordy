@@ -1,7 +1,7 @@
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { useAuth } from "../../../auth/AuthProvider";
+import { useAuth } from "../../../auth/AuthContext";
 import invariant from "tiny-invariant";
 
 const UserProfile = () => {

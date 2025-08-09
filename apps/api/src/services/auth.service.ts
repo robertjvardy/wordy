@@ -1,9 +1,9 @@
 import { createUserQuery, getUserByUsernameQuery } from "@repo/db/queries";
 import { authenticationError, userAlreadyExists } from "exceptions.js";
 import { HTTPException } from "hono/http-exception";
-import { rootLogger } from "rootLogger.js";
+import { logger } from "@repo/logger";
 
-const log = rootLogger.child({ module: "authService" });
+const log = logger.child({ module: "authService" });
 
 export const createUser = async (username: string, password: string) => {
   const res = await getUserByUsernameQuery(username);
