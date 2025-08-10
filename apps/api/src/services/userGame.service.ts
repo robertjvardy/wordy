@@ -1,10 +1,14 @@
-import { getCurrentGameQuery, getUserGamesQuery } from "@repo/db/queries";
+import {
+  getCurrentGameQuery,
+  getGuessesForGame,
+  getUserGamesQuery,
+} from "@repo/db/queries";
 import {
   UserGameDto,
   type UserGameDtoType,
   type UserType,
 } from "@repo/types/dtos";
-import { toUserGameDto } from "@repo/types/entities";
+import { toUserGameDto } from "@repo/types/dtos";
 import { logger } from "@repo/logger";
 
 const log = logger.child({ module: "authService" });
@@ -20,16 +24,23 @@ const tempNewUserGameDto = {
 export const fetchAllGames = async (
   user: UserType
 ): Promise<UserGameDtoType[]> => {
-  const games = await getUserGamesQuery(user.id);
-  return games.map((game) => toUserGameDto(game));
+  const userGames = await getUserGamesQuery(user.id);
+  // TODO convert this to use: getGuessesForGames
+  return Promise.all(
+    userGames.map(async (game) => {
+      const guesses = await getGuessesForGame(user.id, game.id);
+      return toUserGameDto(game, guesses);
+    })
+  );
 };
 
 export const fetchCurrentGame = async (
   user: UserType
 ): Promise<UserGameDtoType> => {
-  const game = await getCurrentGameQuery(user.id);
-  if (game) {
-    return toUserGameDto(game);
+  const userGame = await getCurrentGameQuery(user.id);
+  if (userGame) {
+    const guesses = await getGuessesForGame(user.id, userGame.id);
+    return toUserGameDto(userGame, guesses);
   }
 
   log.info(`No unplayed game for user: ${user.id}`);
