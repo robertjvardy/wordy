@@ -1,12 +1,16 @@
-import { Link, Outlet, useLocation } from "@tanstack/react-router";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useRouteContext,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import Box from "@mui/material/Box";
 import { Button, Typography } from "@mui/material";
-import { useAuth } from "../../auth/AuthContext";
 import UserProfile from "./components/UserProfile";
 
 const PageLayout = () => {
-  const { authenticated } = useAuth();
+  const { authenticated } = useRouteContext({ from: "__root__" });
   const location = useLocation();
   const matchUrlRoute = (route: string) => location.pathname.endsWith(route);
 

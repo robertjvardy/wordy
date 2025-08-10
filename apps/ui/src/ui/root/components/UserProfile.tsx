@@ -1,12 +1,12 @@
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouteContext } from "@tanstack/react-router";
 import { useState } from "react";
-import { useAuth } from "../../../auth/AuthContext";
 import invariant from "tiny-invariant";
+import { removeAuthToken } from "../../../module/jwt";
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user } = useRouteContext({ from: "__root__" });
   invariant(user, "user must be defined");
   const { username } = user;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -24,7 +24,8 @@ const UserProfile = () => {
   };
 
   const handleLogout = async () => {
-    logout();
+    // TODO need to add a method to remove the token from the axios instance
+    removeAuthToken();
     await navigate({ to: "/" });
     handleClose();
   };

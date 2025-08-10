@@ -1,9 +1,9 @@
 import invariant from "tiny-invariant";
 import { Box, Typography } from "@mui/material";
-import { useAuth } from "../../auth/AuthContext";
+import { useRouteContext } from "@tanstack/react-router";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user } = useRouteContext({ from: "/profile/" });
   invariant(user, "User must be defined");
 
   return (

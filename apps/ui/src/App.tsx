@@ -3,21 +3,21 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./module/queryClient.ts";
 import router from "./module/router.ts";
-import { AuthProvider } from "./auth/AuthProvider";
-import { useAuth } from "./auth/AuthContext";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./module/theme.ts";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, GlobalStyles } from "@mui/material";
+import { GlobalStyles } from "@mui/material";
 import { Suspense } from "react";
+import Loader from "./ui/components/loader/Loader.tsx";
 
 const ContextWrapper = () => {
-  const { user, authenticated } = useAuth();
-
   return (
     <>
       <ReactQueryDevtools initialIsOpen={false} />
-      <RouterProvider router={router} context={{ user, authenticated }} />
+      <RouterProvider
+        router={router}
+        context={{ user: undefined, authenticated: undefined }}
+      />
     </>
   );
 };
@@ -38,10 +38,8 @@ const App = () => {
         }}
       />
       <QueryClientProvider client={queryClient}>
-        <Suspense fallback={<Box sx={{ margin: "auto" }}>Loading...</Box>}>
-          <AuthProvider>
-            <ContextWrapper />
-          </AuthProvider>
+        <Suspense fallback={<Loader />}>
+          <ContextWrapper />
         </Suspense>
       </QueryClientProvider>
     </ThemeProvider>

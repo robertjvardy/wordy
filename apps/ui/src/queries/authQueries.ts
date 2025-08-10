@@ -6,7 +6,7 @@ import {
   type LoginRequestType,
 } from "@repo/types/dtos";
 import type { AuthDtoType } from "@repo/types/dtos";
-import { useAuth } from "../auth/AuthContext";
+import { setAuthToken } from "../module/jwt";
 import { useNavigate } from "@tanstack/react-router";
 
 const createUserRequest = async (body: CreateUserRequestType) => {
@@ -15,14 +15,13 @@ const createUserRequest = async (body: CreateUserRequestType) => {
 };
 
 export const useCreateUserMutation = () => {
-  const { login } = useAuth();
   const navigate = useNavigate();
   return useMutation({
     mutationFn: (body: CreateUserRequestType) => createUserRequest(body),
     onSuccess: (res: AuthDtoType) => {
       const { user, token } = AuthDto.parse(res);
       if (user && token) {
-        login(user, token);
+        setAuthToken(token);
         navigate({ to: "/" });
       }
     },
@@ -35,22 +34,21 @@ const loginRequest = async (body: LoginRequestType) => {
 };
 
 export const useLoginMutation = () => {
-  const { login } = useAuth();
   const navigate = useNavigate();
   return useMutation({
     mutationFn: (body: LoginRequestType) => loginRequest(body),
     onSuccess: (res: AuthDtoType) => {
       const { user, token } = AuthDto.parse(res);
       if (user && token) {
-        login(user, token);
+        setAuthToken(token);
         navigate({ to: "/" });
       }
     },
   });
 };
 
-const initRequest = async () => {
-  const { data } = await http.get("/auth/init");
+export const initRequest = async () => {
+  const { data } = await http.get<AuthDtoType>("/auth/init");
   return data;
 };
 

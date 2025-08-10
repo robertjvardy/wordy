@@ -1,5 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useAuth } from "../auth/AuthContext";
+import { createFileRoute, Link, useRouteContext } from "@tanstack/react-router";
 import {
   Box,
   Button,
@@ -14,7 +13,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { authenticated } = useAuth();
+  const { authenticated } = useRouteContext({ from: "/" });
 
   return (
     <Box
