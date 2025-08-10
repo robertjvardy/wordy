@@ -60,9 +60,6 @@ importers:
       pino-pretty:
         specifier: ^13.0.0
         version: 13.0.0
-      prettier:
-        specifier: ^3.2.5
-        version: 3.6.2
       tsx:
         specifier: ^4.7.1
         version: 4.20.3
