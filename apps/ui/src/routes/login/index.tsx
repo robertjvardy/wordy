@@ -7,7 +7,6 @@ import { Box, Typography } from "@mui/material";
 export const Route = createFileRoute("/login/")({
   component: RouteComponent,
   beforeLoad: async ({ context }) => {
-    // TODO Bug: this doenst work in the user goes directly to the route in the address bar of the browser
     if (context.authenticated) {
       throw redirect({
         to: "/",

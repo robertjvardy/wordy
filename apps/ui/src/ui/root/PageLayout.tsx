@@ -36,7 +36,6 @@ const PageLayout = () => {
         <Typography variant="h4" sx={{ margin: "0.5rem 0" }}>
           Wordy
         </Typography>
-        {/* TODO make this an avatar that the user can click on to expand a user profile menu */}
         <Box>
           {!matchUrlRoute("/") && (
             <Link to="/">
@@ -46,9 +45,6 @@ const PageLayout = () => {
           {authenticated ? (
             <UserProfile />
           ) : (
-            // <Button onClick={handleLogout} variant="text">
-            //   logout
-            // </Button>
             <>
               {!matchUrlRoute("login") && (
                 <Link to="/login">

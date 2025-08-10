@@ -5,9 +5,9 @@ import type { UserGameDtoType } from "@repo/types/dtos";
 
 const app = new Hono<Env>();
 
-app.get("/", async (c) => {
-  const games = await fetchAllGames();
-  return c.json<UserGameDtoType[]>(games);
+app.get("/", async (ctx) => {
+  const games = await fetchAllGames(ctx.var.user);
+  return ctx.json<UserGameDtoType[]>(games);
 });
 
 app.get("/current", async (ctx) => {

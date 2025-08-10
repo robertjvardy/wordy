@@ -24,7 +24,6 @@ const UserProfile = () => {
   };
 
   const handleLogout = async () => {
-    // TODO need to add a method to remove the token from the axios instance
     removeAuthToken();
     await navigate({ to: "/" });
     handleClose();

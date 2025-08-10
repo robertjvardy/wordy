@@ -17,8 +17,10 @@ const tempNewUserGameDto = {
   guesses: [null, null, null, null, null, null],
 };
 
-export const fetchAllGames = async (): Promise<UserGameDtoType[]> => {
-  const games = await getUserGamesQuery();
+export const fetchAllGames = async (
+  user: UserType
+): Promise<UserGameDtoType[]> => {
+  const games = await getUserGamesQuery(user.id);
   return games.map((game) => toUserGameDto(game));
 };
 
