@@ -1,13 +1,14 @@
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
-import { useNavigate, useRouteContext } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import invariant from "tiny-invariant";
 import { removeAuthToken } from "../../../module/jwt";
+import { useQueryClient } from "@tanstack/react-query";
+import { authQueryKeys } from "../../../queries/authQueries";
+import type { UserType } from "@repo/types/dtos";
 
-const UserProfile = () => {
+const UserProfile = ({ user }: { user: UserType }) => {
   const navigate = useNavigate();
-  const { user } = useRouteContext({ from: "__root__" });
-  invariant(user, "user must be defined");
+  const queryClient = useQueryClient();
   const { username } = user;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -25,7 +26,8 @@ const UserProfile = () => {
 
   const handleLogout = async () => {
     removeAuthToken();
-    await navigate({ to: "/" });
+    await queryClient.invalidateQueries({ queryKey: authQueryKeys.init });
+    navigate({ to: "/" });
     handleClose();
   };
   return (

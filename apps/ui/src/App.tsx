@@ -9,16 +9,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GlobalStyles } from "@mui/material";
 import { Suspense } from "react";
 import Loader from "./ui/components/loader/Loader.tsx";
+import { useAuthInit } from "./queries/authQueries.ts";
 
 const ContextWrapper = () => {
+  const { data } = useAuthInit();
   return (
-    <>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <RouterProvider
-        router={router}
-        context={{ user: undefined, authenticated: undefined }}
-      />
-    </>
+    <RouterProvider
+      router={router}
+      context={{ user: data.user, authenticated: data.authenticated }}
+    />
   );
 };
 
@@ -38,6 +37,7 @@ const App = () => {
         }}
       />
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <Suspense fallback={<Loader />}>
           <ContextWrapper />
         </Suspense>

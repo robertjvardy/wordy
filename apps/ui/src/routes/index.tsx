@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useRouteContext } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Box,
   Button,
@@ -7,13 +7,14 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { useAuthInit } from "../queries/authQueries";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 function Index() {
-  const { authenticated } = useRouteContext({ from: "/" });
+  const { data } = useAuthInit();
 
   return (
     <Box
@@ -42,7 +43,7 @@ function Index() {
           gap: "1rem",
         }}
       >
-        {authenticated && (
+        {data.authenticated && (
           <>
             <Link to="/game">
               <Button variant="contained">Play</Button>
