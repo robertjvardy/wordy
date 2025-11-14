@@ -25,7 +25,8 @@ export const fetchAllGames = async (
   user: UserType
 ): Promise<UserGameDtoType[]> => {
   const userGames = await getUserGamesQuery(user.id);
-  // TODO convert this to use: getGuessesForGames
+  // TODO add this to the getCurrentGame Query with a join
+  // probably want server side pagination
   return Promise.all(
     userGames.map(async (game) => {
       const guesses = await getGuessesForGame(user.id, game.id);
@@ -39,6 +40,7 @@ export const fetchCurrentGame = async (
 ): Promise<UserGameDtoType> => {
   const userGame = await getCurrentGameQuery(user.id);
   if (userGame) {
+    // TODO add this to the getCurrentGame Query with a join
     const guesses = await getGuessesForGame(user.id, userGame.id);
     return toUserGameDto(userGame, guesses);
   }
